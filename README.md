@@ -56,7 +56,11 @@ A aplicação usa autenticação OAuth e requer credenciais do HubSpot.
     - Salve o aplicativo
 
 - **Configure o `application.properties`:**
-  Em `src/main/resources/application.properties` substitua `<SEU_CLIENT_ID>` e `<SEU_CLIENT_SECRET>` pelos valores anotados no passo anterior.
+  - Copie o arquivo `application.properties.example` para `application.properties`:
+  ```bash
+     cp src/main/resources/application.properties.example src/main/resources/application.properties
+   ```
+  - Edite `src/main/resources/application.properties` com suas credenciais substituindo `<SEU_CLIENT_ID>` e `<SEU_CLIENT_SECRET>` pelos valores anotados no passo anterior.
 
 ## Autenticação OAuth
 

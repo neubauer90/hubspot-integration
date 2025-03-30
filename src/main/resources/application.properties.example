@@ -1,5 +1,5 @@
 spring.application.name=hubspot-integration
-hubspot.client-id=796f1ce7-b71c-4d03-a345-96c5501d34fc
-hubspot.client-secret=e149ff69-0abb-4ccc-b29b-368e348a2ce3
+hubspot.client-id=<SEU_CLIENT_ID>
+hubspot.client-secret=<SEU_CLIENT_SECRET>
 hubspot.redirect-uri=http://localhost:8080/oauth/callback
 hubspot.scope=crm.objects.contacts.write crm.objects.contacts.read oauth
