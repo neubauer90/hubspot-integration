@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class WeebhookUseCaseImpl implements WebhookUseCase {
+public class WebhookUseCaseImpl implements WebhookUseCase {
 
     @Override
     public void processWebhook(List<Map<String, Object>> events) {
         events.forEach(event -> {
             if ("contact.creation".equals(event.get("subscriptionType"))) {
-                System.out.println("Novo contato criado: " + event);
+                System.out.println("New contact created: " + event);
             }
         });
     }

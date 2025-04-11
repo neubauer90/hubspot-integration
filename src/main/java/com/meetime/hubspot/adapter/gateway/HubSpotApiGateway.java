@@ -37,7 +37,7 @@ public class HubSpotApiGateway implements ExternalApiPort {
 
         String token = tokenStoragePort.getToken();
         if (token == null) {
-            throw new HubSpotException("Token de autenticação não disponível");
+            throw new HubSpotException("Authentication token not available");
         }
 
         Request request = new Request.Builder()
@@ -51,18 +51,18 @@ public class HubSpotApiGateway implements ExternalApiPort {
             String dailyRemaining = response.header("X-HubSpot-RateLimit-Daily-Remaining");
             if (response.code() == 429) {
                 if (secondlyRemaining == 0) {
-                    throw new HubSpotException("Limite de taxa por segundo excedido (11 requisições). Tente novamente em 1 segundo.", "rate_limit_secondly");
+                    throw new HubSpotException("Per-second rate limit exceeded (11 requests). Try again in 1 second.", "rate_limit_secondly");
                 } else if (dailyRemaining != null && Integer.parseInt(dailyRemaining) == 0) {
-                    throw new HubSpotException("Limite diário de requisições excedido. Tente novamente amanhã.", "rate_limit_daily");
+                    throw new HubSpotException("Daily request limit exceeded. Try again tomorrow.", "rate_limit_daily");
                 } else {
-                    throw new HubSpotException("Limite de taxa excedido (provavelmente diário). Tente novamente mais tarde ou amanhã.", "rate_limit_unknown");
+                    throw new HubSpotException("Rate limit exceeded (likely daily). Try again later or tomorrow.", "rate_limit_unknown");
                 }
             }
             if (!response.isSuccessful()) {
-                throw new HubSpotException("Erro ao criar contato: " + response.code());
+                throw new HubSpotException("Failed to create contact: " + response.code());
             }
         } catch (Exception e) {
-            throw new HubSpotException("Erro ao chamar API do HubSpot: " + e.getMessage());
+            throw new HubSpotException("Error calling HubSpot API: " + e.getMessage());
         }
     }
 
@@ -82,12 +82,12 @@ public class HubSpotApiGateway implements ExternalApiPort {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new HubSpotException("Erro ao obter token: " + response.code());
+            if (!response.isSuccessful()) throw new HubSpotException("Failed to obtain token: " + response.code());
             String responseBody = response.body().string();
             JSONObject json = new JSONObject(responseBody);
             return json.getString("access_token");
         } catch (Exception e) {
-            throw new HubSpotException("Erro ao chamar API de token: " + e.getMessage());
+            throw new HubSpotException("Error calling token API: " + e.getMessage());
         }
     }
 }
