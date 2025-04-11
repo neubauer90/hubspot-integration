@@ -24,7 +24,7 @@ public class OAuthController {
     @GetMapping("/authorize")
     public RedirectView getAuthorizationUrl() {
         String state = UUID.randomUUID().toString();
-        stateStore.put(state, state); // Armazena o state como chave e valor (apenas para rastrear)
+        stateStore.put(state, state);
         String authorizationUrl = oAuthUseCase.getAuthorizationUrl(state);
         return new RedirectView(authorizationUrl);
     }
@@ -38,7 +38,7 @@ public class OAuthController {
             return ResponseEntity.status(403).body("Invalid state parameter - possible CSRF attack");
         }
         oAuthUseCase.handleCallback(code);
-        stateStore.remove(receivedState); // Remove após uso
+        stateStore.remove(receivedState);
         return ResponseEntity.ok("Authentication completed successfully");
     }
 }

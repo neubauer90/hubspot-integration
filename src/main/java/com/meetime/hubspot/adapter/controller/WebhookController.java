@@ -44,14 +44,14 @@ public class WebhookController {
         }
 
         try {
-            logger.info("Deserializing rawBody: " + rawBody); // Log para debug
+            logger.info("Deserializing rawBody: " + rawBody);
             List<Map<String, Object>> events = objectMapper.readValue(rawBody,
                     objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class));
-            logger.info("Events deserialized: " + events); // Log para debug
+            logger.info("Events deserialized: " + events);
             webhookUseCase.processWebhook(events);
             return ResponseEntity.ok("Webhook processed successfully");
         } catch (Exception e) {
-            logger.severe("Failed to deserialize rawBody: " + e.getMessage()); // Log do erro
+            logger.severe("Failed to deserialize rawBody: " + e.getMessage());
             return ResponseEntity.status(400).body("Failed to process webhook payload");
         }
     }
